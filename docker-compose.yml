@@ -1,0 +1,72 @@
+services:
+  # 1. Le "Cuisinier" (Ton code Laravel sous PHP-FPM)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: slamsync-app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db # Laravel attend que la DB soit prête
+    networks:
+      - slamsync-network
+
+  # 2. Le "Serveur en salle" (Apache)
+  web:
+    image: nginx:stable-alpine
+    container_name: slamsync-web
+    restart: unless-stopped
+    ports:
+      # Si 8084 est déjà pris par un autre projet, change-le en "8081:80"
+      - "8084:80"
+    volumes:
+      - .:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - slamsync-network
+
+  # 3. La Base de Données (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: slamsync-db
+    restart: unless-stopped
+    # ports:
+    #   - "3306:3306" # Décommente uniquement si tu as besoin de te connecter avec DBeaver/TablePlus depuis Windows
+    environment:
+      MYSQL_DATABASE: slamsync
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: slamsync_user
+      MYSQL_PASSWORD: secretpassword
+    volumes:
+      - slamsync-db-data:/var/lib/mysql
+    networks:
+      - slamsync-network
+
+  # 4. Interface de gestion de la Base de Données (phpMyAdmin)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: slamsync-pma
+    restart: unless-stopped
+    ports:
+      # Ton serveur Apache (web) est déjà sur 8080, donc on met phpMyAdmin sur 8081
+      - "8085:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - db
+    networks:
+      - slamsync-network
+
+networks:
+  slamsync-network:
+    driver: bridge
+
+volumes:
+  slamsync-db-data:
