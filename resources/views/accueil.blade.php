@@ -1,6 +1,6 @@
 @extends("header")
 
-@section('title', "Accueil")
+@section('title', "SlamSync")
 
 @section('content')
 

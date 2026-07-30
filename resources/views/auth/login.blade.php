@@ -1,6 +1,6 @@
 @extends('header')
 
-@section('title', 'inscription')
+@section('title', 'Connection-SlamSync')
 
 @section('content')
 

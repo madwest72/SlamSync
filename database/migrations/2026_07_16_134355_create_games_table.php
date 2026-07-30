@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('hometeam_id')->constrained('teams');
             $table->foreignId('awayteam_id')->constrained('teams');
             $table->dateTime('start_date');
-            $table->integer('homescore')->default(0);
-            $table->integer('awayscore')->default(0);
+            $table->integer('homescore')->nullable();
+            $table->integer('awayscore')->nullable();
             $table->string('status');
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('game');
+        Schema::dropIfExists('games');
     }
 };

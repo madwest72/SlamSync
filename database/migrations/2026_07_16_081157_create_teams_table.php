@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('api_id')->unique();
             $table->string('logo')->nullable();
             $table->string('conference');
+            $table->timestamps();
         });
     }
 

@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
     public function showSignUp(){
         if(Auth::check()){
-            return redirect()->route('dashbord');
+            return redirect()->route('dashboard');
         }
         return view('auth.register');
 

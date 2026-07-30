@@ -1,5 +1,32 @@
 @extends('header')
 
-@section('title', 'Accueil')
+@section('title', 'dashboard-Slamsync')
 
 @section('content')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@endsection

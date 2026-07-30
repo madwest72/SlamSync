@@ -19,8 +19,8 @@
     </div>
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
-            <li><a>equipes</a></li>
-            <li><a>matchs</a></li>
+            <li><a href="{{ route('listeAll') }}">Équipes</a></li>
+            <li><a href="{{ route('listeAllgame') }}">Matchs</a></li>
             <li><a>leaderbord</a></li>
         </ul>
     </div>
